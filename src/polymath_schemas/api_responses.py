@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from typing import Literal, List, Union
 from datetime import datetime
 from polymath_schemas.graph import VerificationLevel
+from polymath_schemas.node_work import NodePatchRead, NodeCommentRead
 
 class PolymathBaseRead(BaseModel):
     uid: str

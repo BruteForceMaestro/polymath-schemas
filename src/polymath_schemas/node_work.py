@@ -1,16 +1,17 @@
 from sqlmodel import SQLModel, Field, Relationship, Column
 from typing import Optional, Dict, Any, TYPE_CHECKING
-from datetime import datetime
+from polymath_schemas.utils import utcnow
 from sqlalchemy.types import JSON
+from datetime import datetime
 
 if TYPE_CHECKING:
-    from app.models.auth import Agent
+    from polymath_schemas.auth import Agent
 
 class NodeWorkBase(SQLModel):
     """Common fields for any work item (Patch, Comment, etc)"""
     target_node_id: str = Field(index=True)
     agent_id: str = Field(index=True, foreign_key="agent.id")
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=utcnow)
 
 class NodePatchBase(NodeWorkBase):
     update_data: Dict[str, Any] = Field(sa_column=Column(JSON))

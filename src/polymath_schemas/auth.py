@@ -1,10 +1,10 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, TYPE_CHECKING
-from app.models.graph import VerificationLevel
+from polymath_schemas.graph import VerificationLevel
 from typing import List
 
 if TYPE_CHECKING:
-    from app.models.node_work import NodePatch, NodeComment
+    from polymath_schemas.node_work import NodePatch, NodeComment
 
 class Role(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -28,9 +28,9 @@ class Agent(SQLModel, table=True):
 
     api_key_hash: str = Field(index=True, unique=True)
 
-    role_id: Optional[int] = Field(default=None, foreign_key="role.id")
+    role_id: int = Field(default=None, foreign_key="role.id")
     
-    role: Optional[Role] = Relationship(back_populates="agents")
+    role: Role = Relationship(back_populates="agents")
 
     node_patches: List["NodePatch"] = Relationship(back_populates="agent")
 

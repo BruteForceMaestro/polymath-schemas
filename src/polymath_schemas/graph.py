@@ -10,8 +10,10 @@ from neomodel import (
     UniqueIdProperty,
     IntegerProperty
 )
-from datetime import datetime
+from polymath_schemas.utils import utcnow
 from enum import IntEnum
+from datetime import datetime
+from typing import Union
 
 class VerificationLevel(IntEnum):
     REJECTED = 0          # Proven false
@@ -21,6 +23,7 @@ class VerificationLevel(IntEnum):
     VERIFIED = 4          # Compiled successfully
 
 VERIFICATION_CHOICES = [(status.value, status.name) for status in VerificationLevel]
+
 
 class PolymathBase(StructuredNode):
     """
@@ -32,8 +35,8 @@ class PolymathBase(StructuredNode):
     uid = UniqueIdProperty()
     
     # Metadata
-    created_at = DateTimeProperty(default_datetime=datetime.utcnow)
-    updated_at = DateTimeProperty(default_datetime=datetime.utcnow)
+    created_at : Union[datetime, DateTimeProperty] = DateTimeProperty(default_datetime=utcnow)
+    updated_at : Union[datetime, DateTimeProperty] = DateTimeProperty(default_datetime=utcnow)
     
     # Who created this node (Agent ID)
     author_id = StringProperty(required=True)
@@ -44,9 +47,15 @@ class PolymathBase(StructuredNode):
     
     # Verification Metadata
     verification = IntegerProperty(
-        choices=VERIFICATION_CHOICES, 
+        choices=VERIFICATION_CHOICES, # type: ignore
         default=VerificationLevel.SPECULATIVE
     )
+
+    tags = RelationshipTo('Tag', 'HAS_TAG')
+
+STATEMENT_CHOICES = [
+    "Theorem", "Axiom", "Lemma", "Definition"
+]
 
 
 class Statement(PolymathBase):
@@ -54,8 +63,10 @@ class Statement(PolymathBase):
     Represents a Theorem, Axiom, Lemma, or Definition.
     The 'Dot' in the graph.
     """
-    # theorem, lemma, axiom, or definition
-    category = StringProperty(default="CONJECTURE")
+    category = StringProperty(
+        choices=[(i, choice) for i, choice in enumerate(STATEMENT_CHOICES)],
+        default="Lemma"
+    )
     
     proven_by = RelationshipFrom('Implication', 'IS_PROOF')
     
@@ -72,3 +83,7 @@ class Implication(PolymathBase):
     premises = RelationshipFrom('Statement', 'IS_PREMISE')
     
     concludes = RelationshipTo('Statement', 'IS_PROOF')
+
+
+class Tag(StructuredNode):
+    name = StringProperty(index=True, unique=True)

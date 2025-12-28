@@ -6,7 +6,7 @@ from polymath_schemas.node_work import NodePatchRead, NodeCommentRead
 
 class PolymathBaseRead(BaseModel):
     uid: str
-    author_id: str
+    author_id: int
     created_at: datetime
     updated_at: datetime
     human_rep: str | None = None

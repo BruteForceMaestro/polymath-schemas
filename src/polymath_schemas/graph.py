@@ -29,17 +29,16 @@ class PolymathBase(StructuredNode):
     """
     Abstract base class for all nodes in the protocol.
     """
-    __abstract_node__ = True
 
     # Unique ID 
     uid = UniqueIdProperty()
     
     # Metadata
-    created_at : Union[datetime, DateTimeProperty] = DateTimeProperty(default_datetime=utcnow)
-    updated_at : Union[datetime, DateTimeProperty] = DateTimeProperty(default_datetime=utcnow)
+    created_at : Union[datetime, DateTimeProperty] = DateTimeProperty(default_now=True)
+    updated_at : Union[datetime, DateTimeProperty] = DateTimeProperty(default_now=True)
     
     # Who created this node (Agent ID)
-    author_id = StringProperty(required=True)
+    author_id = IntegerProperty(required=True)
     
     # 2 dialects: human or lean
     human_rep = StringProperty()
@@ -64,7 +63,7 @@ class Statement(PolymathBase):
     The 'Dot' in the graph.
     """
     category = StringProperty(
-        choices=[(i, choice) for i, choice in enumerate(STATEMENT_CHOICES)],
+        choices={choice: choice for choice in STATEMENT_CHOICES},
         default="Lemma"
     )
     

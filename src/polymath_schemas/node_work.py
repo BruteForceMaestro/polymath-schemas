@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 class NodeWorkBase(SQLModel):
     """Common fields for any work item (Patch, Comment, etc)"""
     target_node_id: str = Field(index=True)
-    agent_id: str = Field(index=True, foreign_key="agent.id")
+    agent_id: int = Field(index=True, foreign_key="agent.id")
     created_at: datetime = Field(default_factory=utcnow)
 
 class NodePatchBase(NodeWorkBase):

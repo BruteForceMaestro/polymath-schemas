@@ -7,7 +7,6 @@ from neomodel import (
     DateTimeProperty, 
     RelationshipTo, 
     RelationshipFrom,
-    UniqueIdProperty,
     IntegerProperty
 )
 from polymath_schemas.utils import utcnow
@@ -31,7 +30,7 @@ class PolymathBase(StructuredNode):
     """
 
     # Unique ID 
-    uid = UniqueIdProperty()
+    uid = StringProperty(unique_index=True, required=True)
     
     # Metadata
     created_at : Union[datetime, DateTimeProperty] = DateTimeProperty(default_now=True)

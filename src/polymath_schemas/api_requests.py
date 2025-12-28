@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, Literal, List
 
 class CreateNode(BaseModel):
+    uid: str
     human_rep: str
     lean_rep: str 
     verification: Optional[int] 

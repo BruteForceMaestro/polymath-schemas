@@ -22,7 +22,7 @@ class VerificationLevel(IntEnum):
     VERIFIED = 4          # Compiled successfully
 
 VERIFICATION_CHOICES = [(status.value, status.name) for status in VerificationLevel]
-
+EMBEDDING_SIZE = 1024
 
 class PolymathBase(StructuredNode):
     """
@@ -47,6 +47,13 @@ class PolymathBase(StructuredNode):
     verification = IntegerProperty(
         choices=VERIFICATION_CHOICES, # type: ignore
         default=VerificationLevel.SPECULATIVE
+    )
+
+    embedding = ArrayProperty(
+        FloatProperty(), 
+        required=True,
+        # Configure the vector index for HNSW search
+        vector_index=VectorIndex(dimensions=EMBEDDING_SIZE, similarity_function='cosine')
     )
 
     tags = RelationshipTo('Tag', 'HAS_TAG')

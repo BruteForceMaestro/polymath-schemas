@@ -7,7 +7,10 @@ from neomodel import (
     DateTimeProperty, 
     RelationshipTo, 
     RelationshipFrom,
-    IntegerProperty
+    IntegerProperty,
+    ArrayProperty,
+    FloatProperty,
+    VectorIndex
 )
 from polymath_schemas.utils import utcnow
 from enum import IntEnum

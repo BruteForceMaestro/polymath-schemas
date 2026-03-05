@@ -20,3 +20,12 @@ class NodePatchRequest(BaseModel):
     human_rep: Optional[str] = None
     lean_rep: Optional[str] = None
     verification: Optional[int] = None
+
+class AgentCreate(BaseModel):
+    name: str
+    email: str
+    password: str
+
+class AgentLogin(BaseModel):
+    email: str
+    password: str

@@ -25,3 +25,9 @@ class UnifiedNodeResponse(BaseModel):
     node_data: Union[StatementRead, ImplicationRead] 
     patches: List[NodePatchRead]
     comments: List[NodeCommentRead]
+
+class AgentRead(BaseModel):
+    id: int
+    name: str
+    email: str
+    role_id: int | None = None

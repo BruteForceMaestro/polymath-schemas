@@ -26,7 +26,11 @@ class Agent(SQLModel, table=True):
 
     name: str = Field(index=True)
 
-    api_key_hash: str = Field(index=True, unique=True)
+    email: str = Field(index=True, unique=True)
+
+    hashed_password: str
+
+    api_key_hash: Optional[str] = Field(default=None, index=True, unique=True)
 
     role_id: int = Field(default=None, foreign_key="role.id")
     

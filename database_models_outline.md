@@ -47,7 +47,9 @@ The relational database uses `SQLModel`.
 - **Columns**:
     - `id`: Integer (Primary Key).
     - `name`: String (Indexed).
-    - `api_key_hash`: String (Unique, Indexed).
+    - `email`: String (Unique, Indexed).
+    - `hashed_password`: String.
+    - `api_key_hash`: String (Optional, Unique, Indexed).
     - `role_id`: Integer (Foreign Key -> `role.id`).
 - **Relationships**:
     - `node_patches`: List of `NodePatch`.
